@@ -1,10 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import mongoose from "mongoose";
+import connectDB from "./db/index.js";
 
-dotenv.config();
+dotenv.config({
+  path: "./.env",
+});
 
 const app = express();
+
+connectDB();
 
 const loger = (req, res, next) => {
   console.log("middleware running");
