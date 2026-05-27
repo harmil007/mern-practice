@@ -1,6 +1,7 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import connectDB from "./db/index.js";
 
@@ -18,10 +19,21 @@ const loger = (req, res, next) => {
   next();
 };
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
 app.use(loger);
-
-app.use(express.json());
+app.use();
+app.use(
+  express.json({
+    limit: "16kb",
+  })
+);
+app.use(urlencoded({ extended: true, limit: "16kb" }));
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send({ name: "harmil", email: "name@gmail.com" });
